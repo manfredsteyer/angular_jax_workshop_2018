@@ -8,6 +8,15 @@ export class FlightService {
 
     constructor(private http: HttpClient) { }
 
+    flights: Flight[] = [];
+
+    load(from: string, to: string): void {
+        this.find(from, to).subscribe(
+            flights => { this.flights = flights; },
+            err => {console.error('Error loading flights', err); }
+        );
+    }
+
     find(from: string, to: string): Observable<Flight[]> {
         let url = 'http://www.angular.at/api/flight';
         let params = new HttpParams().set('from', from).set('to', to);
